@@ -8,21 +8,22 @@ package AnalizadorLexico;
  *
  * @author felip
  */
-public class TokenPalabrasReservadas {
-    
-    String[] palbrasReservadas = {"AGENTE", "contexto", "variable", "EJECUTAR", "EXPORTAR"};
-    
-    public void reconocerToken(String palabra) {
+public class TokenDirectivas {
+
+    String[] Directivas = {"@modelo", "@rol", "@formato"};
+
+
+    public void reconocerToken(String token) {
        
-        for (int i = 0; i < palbrasReservadas.length; i++) {
-            if (palabra.equals(palbrasReservadas[i])) {
-                añadirTokenPalabrasReservas(palabra);
+        for (int i = 0; i < Directivas.length; i++) {
+            if (token.equals(Directivas[i])) {
+                añadirTokenDirectivas(token);
                 break;
             }
         }
     }
-    
-    public void añadirTokenPalabrasReservas(String palabraReconocida) {
+
+    public void añadirTokenDirectivas(String palabraReconocida) {
         
        System.out.printf("| %-4d | %-14s | %-10s | %-4d | %-7d |%n",
         1, palabraReconocida, "directiva", 2, 1);
