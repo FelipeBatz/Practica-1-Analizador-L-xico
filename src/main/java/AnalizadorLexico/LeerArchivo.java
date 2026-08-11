@@ -21,6 +21,7 @@ public class LeerArchivo {
 
         TokenDirectivas tokenDirectivas = new TokenDirectivas();
         TokenPalabrasReservadas tokenPalabrasReservadas = new TokenPalabrasReservadas();
+        TokenComandosIA tokenComandosIA = new TokenComandosIA();
 
         File miArchivo = new File(PATH_COMPLETO);
         String palabra = "";
@@ -45,6 +46,7 @@ public class LeerArchivo {
 
                         tokenDirectivas.reconocerToken(palabra);
                         tokenPalabrasReservadas.reconocerToken(palabra);
+                        tokenComandosIA.reconocerToken(palabra);
 
                         palabra = "";
                     }
