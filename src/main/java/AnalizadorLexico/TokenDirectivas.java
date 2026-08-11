@@ -12,9 +12,8 @@ public class TokenDirectivas {
 
     String[] Directivas = {"@modelo", "@rol", "@formato"};
 
-
     public void reconocerToken(String token) {
-       
+
         for (int i = 0; i < Directivas.length; i++) {
             if (token.equals(Directivas[i])) {
                 añadirTokenDirectivas(token);
@@ -24,10 +23,9 @@ public class TokenDirectivas {
     }
 
     public void añadirTokenDirectivas(String palabraReconocida) {
-        
-       System.out.printf("| %-4d | %-14s | %-10s | %-4d | %-7d |%n",
-        1, palabraReconocida, "directiva", 2, 1);
+        System.out.println("+------+----------------+-----------------------+------+--------+");
+        System.out.printf("| %-4d | %-14s | %-20s | %-4d | %-7d |%n",
+                1, palabraReconocida, "directiva", 2, 1);
 
-       
     }
 }

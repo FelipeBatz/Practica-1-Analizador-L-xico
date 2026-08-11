@@ -23,9 +23,9 @@ public class TokenPalabrasReservadas {
     }
     
     public void añadirTokenPalabrasReservas(String palabraReconocida) {
-        
-       System.out.printf("| %-4d | %-14s | %-10s | %-4d | %-7d |%n",
-        1, palabraReconocida, "directiva", 2, 1);
+       System.out.println("+---------------------------------------------------------------+");
+       System.out.printf("| %-4d | %-14s | %-20s | %-4d | %-7d |%n",
+        1, palabraReconocida, "Palabra Reservada", 2, 1);
 
        
     }
