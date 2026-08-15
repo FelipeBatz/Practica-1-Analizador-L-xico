@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package AnalizadorLexico;
 
 import java.io.File;
@@ -14,54 +10,87 @@ import java.io.IOException;
  */
 public class LeerArchivo {
 
-    public static final String PATH_COMPLETO
-            = "C:/Users/felip/OneDrive/Escritorio/asdasdads.pz";
+    public static final String PATH_COMPLETO = "C:/Users/felip/OneDrive/Escritorio/asdasdads.pz";
+    int numero;
 
-    public static void leerTextoEnBytes() {
+    /*
+    public void leerTextoEnBytes() {
 
         TokenDirectivas tokenDirectivas = new TokenDirectivas();
         TokenPalabrasReservadas tokenPalabrasReservadas = new TokenPalabrasReservadas();
         TokenComandosIA tokenComandosIA = new TokenComandosIA();
-
+        TokenConectores tokenConectores = new TokenConectores();
+        TokenOperadores tokenOperadores = new TokenOperadores();
+        TokenDelimitadores tokenDelimitadores = new TokenDelimitadores();
+        ReporteHtml reporte = new ReporteHtml();
         File miArchivo = new File(PATH_COMPLETO);
         String palabra = "";
 
-        try (FileInputStream inputStream2 = new FileInputStream(miArchivo)) {
+        reporte.crearReporte();
 
-            int byteEnArchivo = inputStream2.read();
+        try (FileInputStream inputStream = new FileInputStream(miArchivo)) {
 
+            int byteEnArchivo = inputStream.read();
             while (byteEnArchivo != -1) {
 
                 char caracter = (char) byteEnArchivo;
 
-                // Si NO es espacio, salto de línea, tabulación, etc.
-                if (!Character.isWhitespace(caracter)) {
+                if (esCaracter(caracter)) {
 
-                    palabra = palabra + caracter;
-
-                } else {
-
-                    // Si encontramos un separador y hay una palabra
                     if (!palabra.isEmpty()) {
 
-                        tokenDirectivas.reconocerToken(palabra);
-                        tokenPalabrasReservadas.reconocerToken(palabra);
-                        tokenComandosIA.reconocerToken(palabra);
+                        reconocerPalabra(palabra, tokenDirectivas, tokenPalabrasReservadas, tokenComandosIA, tokenConectores, reporte);
+                        palabra = "";
+                    }
+
+                   
+
+                    //tokenOperadores.reconocerToken(token);
+                    //tokenDelimitadores.reconocerToken(token);
+
+                } else if (Character.isWhitespace(caracter)) {
+
+                    if (!palabra.isEmpty()) {
+
+                        reconocerPalabra(palabra, tokenDirectivas, tokenPalabrasReservadas, tokenComandosIA, tokenConectores, reporte);
 
                         palabra = "";
                     }
+                } else {
+                    palabra = palabra + caracter;
                 }
 
-                byteEnArchivo = inputStream2.read();
+                byteEnArchivo = inputStream.read();
             }
 
-            // Reconocer la última palabra del archivo
             if (!palabra.isEmpty()) {
-                tokenDirectivas.reconocerToken(palabra);
+                reconocerPalabra(palabra, tokenDirectivas, tokenPalabrasReservadas, tokenComandosIA, tokenConectores, reporte);
+                palabra = "";
             }
+            reporte.cerrarReporte();
 
         } catch (IOException e) {
+
             e.printStackTrace();
         }
     }
+
+    private boolean esCaracter(char caracter) {
+        String[] listaCaracteres = {"+", "=", "{", "}", "(", ")", "\""};
+
+        for (String delimitador : listaCaracteres) {
+            if (String.valueOf(caracter).equals(delimitador)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void reconocerPalabra(String palabra, TokenDirectivas tokenDirectivas,  tokenPalabrasReservadas, TokenComandosIA tokenComandosIA, TokenConectores tokenConectores, ReporteHtml reporte) {
+        numero = tokenDirectivas.reconocerDirectivas(palabra, numero);
+        //tokenPalabrasReservadas.reconocerToken(palabra);
+        //tokenComandosIA.reconocerToken(palabra, reporte);
+        //tokenConectores.reconocerToken(palabra);
+    }
+*/
 }

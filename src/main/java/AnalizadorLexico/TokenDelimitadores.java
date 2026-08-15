@@ -8,14 +8,13 @@ package AnalizadorLexico;
  *
  * @author felip
  */
-public class TokenDirectivas {
-
-    String[] Directivas = {"@modelo", "@rol", "@formato"};
+public class TokenDelimitadores {
+    String[] delimitadores  = {"{", "}", "(", ")", "\""};
 
     public void reconocerToken(String token) {
 
-        for (int i = 0; i < Directivas.length; i++) {
-            if (token.equals(Directivas[i])) {
+        for (int i = 0; i < delimitadores.length; i++) {
+            if (token.equals(delimitadores[i])) {
                 añadirTokenDirectivas(token);
                 break;
             }
@@ -25,7 +24,7 @@ public class TokenDirectivas {
     public void añadirTokenDirectivas(String palabraReconocida) {
         System.out.println("+------+----------------+-----------------------+------+--------+");
         System.out.printf("| %-4d | %-14s | %-20s | %-4d | %-7d |%n",
-                1, palabraReconocida, "directiva", 2, 1);
+                1, palabraReconocida, "Delimitador", 2, 1);
 
     }
 }
