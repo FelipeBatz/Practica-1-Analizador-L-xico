@@ -5,7 +5,8 @@
 package AnalizadorLexico;
 
 /**
- *d
+ * d
+ *
  * @author felip
  */
 public class Main {
@@ -15,19 +16,13 @@ public class Main {
         System.out.println("+------+----------------+----------------------+------+---------+");
         System.out.printf("| %-4s | %-14s | %-20s | %-4s | %-7s |%n",
                 "No.", "Lexema", "Tipo", "Fila", "Columna");
-        
-/*
-        LeerArchivo leer = new LeerArchivo();
-        leer.leerTextoEnBytes();
-        */
-        
+
         ReporteHtml reporte = new ReporteHtml();
         reporte.crearReporte();
-        
-       Archivo archivo = new Archivo();
+
+        Archivo archivo = new Archivo();
         archivo.leerTextoEnBytes(reporte);
-        
-        
+
         reporte.cerrarReporte();
     }
 }

@@ -18,29 +18,140 @@ public class Token {
         columna = 0;
         String palabra = "";
 
+        boolean dentroCadena = false;
+        String cadena = "";
+
         for (int i = 0; i < linea.length; i++) {
 
             if (linea[i] != null) {
-                if (!linea[i].equals(" ")) {
-                    palabra = palabra + linea[i];
-                } else {
-                    reconocerPalabraReservada(palabra, fila, reporte);
-                    reconocerDirectivas(palabra, fila, reporte);
-                    palabra = "";
-                    columna++;
 
+                // Detectar comilla
+                if (linea[i].equals("\"") || linea[i].equals("/") || linea[i].equals("/")) {
+
+                    if (!dentroCadena) {
+                        // Comienza la cadena
+                        dentroCadena = true;
+                        cadena = "\"";
+
+                    } else {
+                        // Termina la cadena
+                        cadena = cadena + "\"";
+
+                        reconocerLiteral(cadena, fila, reporte);
+                        reconocerCometario(cadena, fila, reporte);
+
+                        cadena = "";
+                        dentroCadena = false;
+                    }
+
+                } else if (dentroCadena) {
+
+                    // Estamos dentro de las comillas
+                    cadena = cadena + linea[i];
+
+                } else if (!linea[i].equals(" ")) {
+
+                    if (esCaracter(linea[i])) {
+
+                        //reconocerOperadores(linea[i], fila, reporte);
+                        //reconocerDelimitador(linea[i], fila, reporte);
+                        palabra = "";
+
+                    } else {
+
+                        palabra = palabra + linea[i];
+                    }
+
+                } else {
+
+                    if (!palabra.isEmpty()) {
+                        //reconocerPalabraReservada(palabra, fila, reporte);
+                        //reconocerDirectivas(palabra, fila, reporte);
+                        //reconocerComandosIA(palabra, fila, reporte);
+                        //reconocerConectores(palabra, fila, reporte);
+
+                        palabra = "";
+                    }
+
+                    columna++;
                 }
             }
         }
+
         if (!palabra.isEmpty()) {
             reconocerPalabraReservada(palabra, fila, reporte);
             reconocerDirectivas(palabra, fila, reporte);
+            reconocerComandosIA(palabra, fila, reporte);
+            reconocerConectores(palabra, fila, reporte);
         }
 
     }
+
+    public void reconocerCometario(String palabra, int fila, ReporteHtml reporte) {
+        String[] delimitadores = {"//", "/", "/"};
+        if (palabra.startsWith(delimitadores[1]) && palabra.endsWith(delimitadores[2])) {
+            numero++;
+            columna++;
+            añadirToken(numero, palabra, "Comentario", fila, columna, reporte);
+        }
+    }
     
-    
-    
+    public void reconocerLiteral(String palabra, int fila, ReporteHtml reporte) {
+        String[] delimitadores = {"\""};
+        if (palabra.startsWith(delimitadores[0]) && palabra.endsWith(delimitadores[0])) {
+            numero++;
+            columna++;
+            añadirToken(numero, palabra, "Literal", fila, columna, reporte);
+        } 
+    }
+
+    public void reconocerDelimitador(String palabra, int fila, ReporteHtml reporte) {
+        String[] delimitadores = {"{", "}", "(", ")", "\""};
+        for (int i = 0; i < delimitadores.length; i++) {
+            if (palabra.equals(delimitadores[i])) {
+                numero++;
+                columna++;
+                añadirToken(numero, palabra, "Delimitador", fila, columna, reporte);
+                break;
+            }
+        }
+    }
+
+    public void reconocerOperadores(String palabra, int fila, ReporteHtml reporte) {
+        String[] Operadores = {"=", "+"};
+        for (int i = 0; i < Operadores.length; i++) {
+            if (palabra.equals(Operadores[i])) {
+                numero++;
+                columna++;
+                añadirToken(numero, palabra, "Operador", fila, columna, reporte);
+                break;
+            }
+        }
+    }
+
+    public void reconocerConectores(String palabra, int fila, ReporteHtml reporte) {
+        String[] conectores = {"SOBRE", "DESDE", "EN", "COMO", "->"};
+        for (int i = 0; i < conectores.length; i++) {
+            if (palabra.equals(conectores[i])) {
+                numero++;
+                columna++;
+                añadirToken(numero, palabra, "Conector", fila, columna, reporte);
+                break;
+            }
+        }
+    }
+
+    public void reconocerComandosIA(String palabra, int fila, ReporteHtml reporte) {
+        String[] comandosIA = {"PREGUNTAR", "GENERAR", "RESUMIR", "ANALIZAR", "TRADUCIR", "CLASIFICAR", "EXTRAER"};
+        for (int i = 0; i < comandosIA.length; i++) {
+            if (palabra.equals(comandosIA[i])) {
+                numero++;
+                columna++;
+                añadirToken(numero, palabra, "Comando IA", fila, columna, reporte);
+                break;
+            }
+        }
+    }
 
     public void reconocerPalabraReservada(String palabra, int fila, ReporteHtml reporte) {
         String[] palbrasReservadas = {"AGENTE", "contexto", "variable", "EJECUTAR", "EXPORTAR"};
@@ -71,6 +182,17 @@ public class Token {
         System.out.printf("| %-4d | %-14s | %-20s | %-4d | %-7d |%n", numero, palabraReconocida, tipo, fila, columna);
         reporte.agregarDato(numero, palabraReconocida, tipo, fila, columna);
 
+    }
+
+    private boolean esCaracter(String caracter) {
+        String[] listaCaracteres = {"+", "=", "{", "}", "(", ")"};
+
+        for (String delimitador : listaCaracteres) {
+            if (caracter.equals(delimitador)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
