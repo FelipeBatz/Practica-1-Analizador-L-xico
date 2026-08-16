@@ -16,7 +16,7 @@ public class Archivo {
 
     private int fila;
     private String[] linea = new String[500];
-    private Token token = new Token();
+    private LeerTokens token = new LeerTokens();
     private int contadorLetras;
 
     public void leerTextoEnBytes(ReporteHtml reporte) {

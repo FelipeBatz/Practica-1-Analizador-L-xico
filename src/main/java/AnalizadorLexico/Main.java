@@ -13,8 +13,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("+------+----------------+----------------------+------+---------+");
-        System.out.printf("| %-4s | %-14s | %-20s | %-4s | %-7s |%n",
+        System.out.println("+------+-------------------------------------------------------------------------------------+----------------------+------+---------+");
+        System.out.printf("| %-4s | %-83s | %-20s | %-4s | %-7s |%n",
                 "No.", "Lexema", "Tipo", "Fila", "Columna");
 
         ReporteHtml reporte = new ReporteHtml();
@@ -24,5 +24,7 @@ public class Main {
         archivo.leerTextoEnBytes(reporte);
 
         reporte.cerrarReporte();
+
+        System.out.println("+------+-------------------------------------------------------------------------------------+----------------------+------+---------+");
     }
 }
