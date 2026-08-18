@@ -16,11 +16,13 @@ public class Archivo {
 
     private int fila;
     private String[] linea = new String[500];
-    private LeerTokens token = new LeerTokens();
+    private LeerTokens leerToken = new LeerTokens();
     private int contadorLetras;
 
-    public void leerTextoEnBytes(ReporteHtml reporte) {
-        File miArchivo = new File("C:/Users/felip/OneDrive/Escritorio/Prueba.pz");
+    public void leerTextoEnBytes(ReporteHtml reporte, String pathArchivo) {
+
+        Token token = new Token();
+        File miArchivo = new File(pathArchivo);
 
         try (FileInputStream inputStream = new FileInputStream(miArchivo)) {
 
@@ -32,7 +34,7 @@ public class Archivo {
 
                 if (letra == '\n') {
                     fila++;
-                    token.reconocer(linea, fila, reporte);
+                    leerToken.reconocer(linea, fila, reporte, token);
                     linea = new String[500];
                     contadorLetras = 0;
 
@@ -46,11 +48,17 @@ public class Archivo {
 
             if (contadorLetras > 0) {
                 fila++;
-                token.reconocer(linea, fila, reporte);
+                leerToken.reconocer(linea, fila, reporte, token);
             }
 
         } catch (IOException e) {
             System.out.println("Error al leer el archivo");
         }
+
+        System.out.println("+------+-------------------------------------------------------------------------------------+----------------------+------+---------+");
+        System.out.println("");
+        System.out.println("****Reportes de errores");
+        
+        token.imprimirErrores(reporte);
     }
 }

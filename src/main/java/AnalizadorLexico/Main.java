@@ -13,18 +13,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("+------+-------------------------------------------------------------------------------------+----------------------+------+---------+");
-        System.out.printf("| %-4s | %-83s | %-20s | %-4s | %-7s |%n",
-                "No.", "Lexema", "Tipo", "Fila", "Columna");
+        FramePrincipal principal = new FramePrincipal();
+        principal.setVisible(true);
 
-        ReporteHtml reporte = new ReporteHtml();
-        reporte.crearReporte();
-
-        Archivo archivo = new Archivo();
-        archivo.leerTextoEnBytes(reporte);
-
-        reporte.cerrarReporte();
-
-        System.out.println("+------+-------------------------------------------------------------------------------------+----------------------+------+---------+");
     }
 }

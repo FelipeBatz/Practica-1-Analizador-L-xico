@@ -15,27 +15,29 @@ public class ReporteHtml {
 
     private FileWriter escribir;
 
-    public void crearReporte() {
+    private String errores = "";
 
+    public void crearReporte() {
         try {
-            File pathArchivo = new File("C:/Users/felip/OneDrive/Escritorio/reporteTokensYErrores.html");
+            File pathArchivo = new File("Reporte.html");
 
             escribir = new FileWriter(pathArchivo);
             escribir.write("<html>");
             escribir.write("<head>");
             escribir.write("<title>" + TITULO_LOG + "</title>");
-
+            
             escribir.write("<style>");
-            escribir.write("body {font-family: Tahoma, Geneva, sans-serif; font-weight: bold;}");
-            escribir.write("table {border-collapse: collapse; width: 100%;}");
-            escribir.write("tr:nth-child(even) {background-color: #f2f2f2;}");
-            escribir.write("tr:hover {background-color: lightblue;}");
-            escribir.write("th, td {padding: 10px; text-align: left;}");
-            escribir.write("th {background-color: #000080; color: white;}");
-            escribir.write("h1 {text-align: center;}");
+            escribir.write("body {" + "font-family: Tahoma, Geneva, sans-serif;" + "font-weight: bold;" + "}");
+            escribir.write("table {" + "border-collapse: collapse;" + "width: 100%;" + "}");
+            escribir.write("tr:nth-child(even) {" + "background-color: #f2f2f2;" + "}");
+            escribir.write("tr:hover {" + "background-color: lightblue;" + "}");
+            escribir.write("th, td {" + "padding: 10px;" + "text-align: left;" + "}");
+            escribir.write("th {" + "background-color: #000080;" + "color: white;" + "}");
+            escribir.write("h1 {" + "text-align: center;" + "}");
             escribir.write("</style>");
-
+            
             escribir.write("</head>");
+            
             escribir.write("<body>");
             escribir.write("<h1>" + TITULO_LOG + "</h1>");
             escribir.write("<table border='1'>");
@@ -48,12 +50,22 @@ public class ReporteHtml {
             escribir.write("</tr>");
 
         } catch (IOException e) {
+
             e.printStackTrace();
+
         }
     }
 
-    public void agregarDato(int numero, String lexema, String tipo, int fila, int columna) {
+    // Guardar los errores temporalmente
+    public void agreagarError(String error) {
+        errores += "<h3>" + error + "</h3>";
+    }
+
+    // Agregar tokens a la tabla
+    public void agregarDato(int numero, String lexema, String tipo, int fila,          int columna) {
+
         try {
+
             escribir.write("<tr>");
             escribir.write("<td>" + numero + "</td>");
             escribir.write("<td>" + lexema + "</td>");
@@ -61,21 +73,28 @@ public class ReporteHtml {
             escribir.write("<td>" + fila + "</td>");
             escribir.write("<td>" + columna + "</td>");
             escribir.write("</tr>");
+
         } catch (IOException e) {
-            e.printStackTrace();
+
+            System.out.println("Error al agregar token");
+
         }
     }
 
     public void cerrarReporte() {
-        try {
 
+        try { 
             escribir.write("</table>");
+            escribir.write("<h2>ERRORES:</h2>");
+  
+            escribir.write(errores);    
             escribir.write("</body>");
             escribir.write("</html>");
+      
             escribir.close();
-
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("error al cerrar html");
+
         }
     }
 }
