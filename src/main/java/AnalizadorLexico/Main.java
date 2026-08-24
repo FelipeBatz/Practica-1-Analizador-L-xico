@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package AnalizadorLexico;
-
+import InterfazGrafica.InterfazPrincipal;
 /**
  * d
  *
@@ -13,8 +13,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        FramePrincipal principal = new FramePrincipal();
-        principal.setVisible(true);
-
+        InterfazPrincipal interfazPrincipal = new InterfazPrincipal();
+        interfazPrincipal.setVisible(true);
+        
+      
     }
 }

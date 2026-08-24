@@ -46,8 +46,9 @@ public class Token {
             numero++;
             añadirToken(numero, palabra, "Comentario", fila, columna, reporte);
             return true;
+        } else {
+            return false;
         }
-        return false;
 
     }
 
@@ -89,7 +90,7 @@ public class Token {
             return true;
         }
 
-        String[] delimitadores = {"{", "}", "(", ")", "\""};
+        String[] delimitadores = {"{", "}", "(", ")", "\"", ";"};
         for (int i = 0; i < delimitadores.length; i++) {
             if (palabra.equals(delimitadores[i])) {
                 numero++;
@@ -111,7 +112,7 @@ public class Token {
         for (int i = 0; i < Operadores.length; i++) {
             if (palabra.equals(Operadores[i])) {
                 numero++;
-    
+
                 añadirToken(numero, palabra, "Operador", fila, columna, reporte);
                 return true;
             }
@@ -145,7 +146,7 @@ public class Token {
         for (int i = 0; i < conectores.length; i++) {
             if (palabra.equals(conectores[i])) {
                 numero++;
- 
+
                 añadirToken(numero, palabra, "Conector", fila, columna, reporte);
                 return true;
             }
@@ -158,11 +159,11 @@ public class Token {
             return true;
         }
 
-        String[] comandosIA = {"PREGUNTAR", "GENERAR", "RESUMIR", "ANALIZAR", "TRADUCIR", "CLASIFICAR", "EXTRAER"};
+        String[] comandosIA = {"PREGUNTAR", "GENERAR", "RESUMIR", "ANALIZAR", "TRADUCIR", "CLASIFICAR", "EXTRAER", "CODIFICAR"};
         for (int i = 0; i < comandosIA.length; i++) {
             if (palabra.equals(comandosIA[i])) {
                 numero++;
-  
+
                 añadirToken(numero, palabra, "Comando IA", fila, columna, reporte);
                 return true;
             }
@@ -197,7 +198,7 @@ public class Token {
         for (int i = 0; i < Directivas.length; i++) {
             if (palabra.equals(Directivas[i])) {
                 numero++;
- 
+
                 añadirToken(numero, palabra, "Directiva", fila, columna, reporte);
                 return true;
             }

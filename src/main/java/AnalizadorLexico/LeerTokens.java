@@ -18,6 +18,7 @@ public class LeerTokens {
         columna = 0;
         String palabra = "";
         String cadena = "";
+        String lineaComentario = "";
         tokenReconocido = false;
 
         boolean dentroCadena = false;
@@ -29,36 +30,54 @@ public class LeerTokens {
             if (linea[i] != null) {
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
                 String comentario = linea[i] + linea[i + 1];
-                if (comentario.equals("/*") || dentroComentario) {
+
+                if (comentario.equals("/*")) {
                     dentroComentario = true;
-                    if (dentroComentario) {
-                        cadena = cadena + linea[i];
-                        if (comentario.equals("*/")) {
-                            dentroComentario = false;
-                            cadena = cadena + "/";
-                            tokenReconocido = token.reconocerCometario(cadena, fila, reporte, tokenReconocido, columna);
+                    lineaComentario = "";
+                }
 
-                            if (!tokenReconocido) {
-                                token.reportarError(cadena, fila, reporte, columna);
-                            }
-                            cadena = "";
+                if (dentroComentario) {
 
-                            dentroCadena = false;
+                    lineaComentario = lineaComentario + linea[i];
+
+                    if (comentario.equals("*/")) {
+                        lineaComentario = lineaComentario + linea[i + 1];
+
+                        dentroComentario = false;
+
+                        tokenReconocido = token.reconocerCometario(
+                                lineaComentario,
+                                fila,
+                                reporte,
+                                tokenReconocido,
+                                columna
+                        );
+
+                        if (!tokenReconocido) {
+                            token.reportarError(
+                                    lineaComentario,
+                                    fila,
+                                    reporte,
+                                    columna
+                            );
                         }
+
+                        lineaComentario = "";
+
+                        i++; // Saltar el '/' del */
                     }
                 }
-                comentario = "";
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
-                // Detectar comilla
+
                 if (linea[i].equals("\"")) {
 
                     if (!dentroCadena) {
-                        // Comienza la cadena
+
                         dentroCadena = true;
                         cadena = "\"";
 
                     } else {
-                        // Termina la cadena
+
                         cadena = cadena + "\"";
 
                         tokenReconocido = token.reconocerLiteral(cadena, fila, reporte, tokenReconocido, columna);
@@ -72,7 +91,7 @@ public class LeerTokens {
                     }
 
                 } else if (dentroCadena) {
-                    // Estamos dentro de las comillas
+
                     cadena = cadena + linea[i];
                     //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -137,7 +156,7 @@ public class LeerTokens {
     }
 
     private boolean esCaracter(String caracter) {
-        String[] listaCaracteres = {"+", "=", "{", "}", "(", ")"};
+        String[] listaCaracteres = {"+", "=", "{", "}", "(", ")", ";"};
 
         for (String delimitador : listaCaracteres) {
             if (caracter.equals(delimitador)) {
